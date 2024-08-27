@@ -2,22 +2,22 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 
 const pictures = [
-  "DSC00680",
-  "DSC00933",
-  "DSC00966",
-  "DSC00983",
-  "DSC01011",
-  "DSC01040",
-  "DSC01064",
-  "DSC01071",
-  "DSC01103",
-  "DSC01145",
-  "DSC01420",
-  "DSC01461",
-  "DSC01489",
-  "DSC02031",
-  "DSC02064",
-  "DSC02069",
+  "scripture1",
+  "scripture2",
+  "scripture3",
+  "scripture4",
+  "scripture5",
+  "scripture6",
+  "scripture7",
+  "scripture8",
+  "scripture9",
+  "scripture10",
+  "scripture11",
+  "scripture12",
+  "scripture13",
+  "scripture14",
+  "scripture15",
+  "scripture16",
 ];
 
 export const pageAtom = atom(0);
@@ -54,7 +54,7 @@ export const UI = () => {
           className="pointer-events-auto mt-10 ml-10"
           href="https://lessons.wawasensei.dev/courses/react-three-fiber"
         >
-          <img className="w-20" src="/images/wawasensei-white.png" />
+          <img className="w-20 md:w-40" src="/images/versevault.png" />
         </a>
         <div className="w-full overflow-auto pointer-events-auto flex justify-center">
           <div className="overflow-auto flex items-center gap-4 max-w-full p-10">
@@ -89,58 +89,60 @@ export const UI = () => {
         <div className="relative">
           <div className="bg-white/0  animate-horizontal-scroll flex items-center gap-8 w-max px-8">
             <h1 className="shrink-0 text-white text-10xl font-black ">
-              Wawa Sensei
+              VerseVault
             </h1>
             <h2 className="shrink-0 text-white text-8xl italic font-light">
-              React Three Fiber
+              Helpful Bible 
             </h2>
             <h2 className="shrink-0 text-white text-12xl font-bold">
-              Three.js
+            Scriptures
             </h2>
             <h2 className="shrink-0 text-transparent text-12xl font-bold italic outline-text">
-              Ultimate Guide
+              That can
             </h2>
             <h2 className="shrink-0 text-white text-9xl font-medium">
-              Tutorials
+              Shape
             </h2>
             <h2 className="shrink-0 text-white text-9xl font-extralight italic">
-              Learn
+              Your 
             </h2>
             <h2 className="shrink-0 text-white text-13xl font-bold">
-              Practice
+              Daily
             </h2>
             <h2 className="shrink-0 text-transparent text-13xl font-bold outline-text italic">
-              Creative
+              Life
             </h2>
           </div>
           <div className="absolute top-0 left-0 bg-white/0 animate-horizontal-scroll-2 flex items-center gap-8 px-8 w-max">
             <h1 className="shrink-0 text-white text-10xl font-black ">
-              Wawa Sensei
+             VerseVault
             </h1>
             <h2 className="shrink-0 text-white text-8xl italic font-light">
-              React Three Fiber
+            Helpful Bible 
             </h2>
             <h2 className="shrink-0 text-white text-12xl font-bold">
-              Three.js
+              Scriptures
             </h2>
             <h2 className="shrink-0 text-transparent text-12xl font-bold italic outline-text">
-              Ultimate Guide
+              That
             </h2>
             <h2 className="shrink-0 text-white text-9xl font-medium">
-              Tutorials
+              Can
             </h2>
             <h2 className="shrink-0 text-white text-9xl font-extralight italic">
-              Learn
+              Make
             </h2>
             <h2 className="shrink-0 text-white text-13xl font-bold">
-              Practice
+              Your
             </h2>
             <h2 className="shrink-0 text-transparent text-13xl font-bold outline-text italic">
-              Creative
+              Life Better
             </h2>
           </div>
         </div>
+       
       </div>
+
     </>
   );
 };

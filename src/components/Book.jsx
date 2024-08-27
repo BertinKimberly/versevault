@@ -86,17 +86,17 @@ const pageMaterials = [
 ];
 
 pages.forEach((page) => {
-  useTexture.preload(`/textures/${page.front}.jpg`);
-  useTexture.preload(`/textures/${page.back}.jpg`);
-  useTexture.preload(`/textures/book-cover-roughness.jpg`);
+  useTexture.preload(`/textures/${page.front}.png`);
+  useTexture.preload(`/textures/${page.back}.png`);
+  useTexture.preload(`/textures/book-cover-roughness.png`);
 });
 
 const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
   const [picture, picture2, pictureRoughness] = useTexture([
-    `/textures/${front}.jpg`,
-    `/textures/${back}.jpg`,
+    `/textures/${front}.png`,
+    `/textures/${back}.png`,
     ...(number === 0 || number === pages.length - 1
-      ? [`/textures/book-cover-roughness.jpg`]
+      ? [`/textures/book-cover-roughness.png`]
       : []),
   ]);
   picture.colorSpace = picture2.colorSpace = SRGBColorSpace;
@@ -117,7 +117,7 @@ const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
         bone.position.x = SEGMENT_WIDTH;
       }
       if (i > 0) {
-        bones[i - 1].add(bone); // attach the new bone to the previous bone
+        bones[i - 1].add(bone); 
       }
     }
     const skeleton = new Skeleton(bones);
