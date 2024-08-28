@@ -52,10 +52,17 @@ export const UI = () => {
       <main className=" pointer-events-none select-none z-10 fixed  inset-0  flex justify-between flex-col">
         <a
           className="pointer-events-auto mt-10 ml-10"
-          href="https://lessons.wawasensei.dev/courses/react-three-fiber"
+          href="#"
         >
           <img className="w-20 md:w-40" src="/images/versevault.png" />
         </a>
+        <a
+          className="pointer-events-auto absolute top-16 right-10"
+          href="https://github.com/bertinKimberly"
+        >
+          <img className="w-10 md:w-20" src="/images/github.png" />
+        </a>
+
         <div className="w-full overflow-auto pointer-events-auto flex justify-center">
           <div className="overflow-auto flex items-center gap-4 max-w-full p-10">
             {[...pages].map((_, index) => (
