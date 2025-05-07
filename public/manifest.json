@@ -1,0 +1,35 @@
+{
+    "name": "VerseVault",
+    "short_name": "VerseVault",
+    "description": "AI-powered Bible study and spiritual growth platform",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#3A59D1",
+    "theme_color": "#3A59D1",
+    "icons": [
+      {
+        "src": "/web-app-manifest-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/web-app-manifest-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "/apple-touch-icon.png",
+        "sizes": "180x180",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ],
+    "categories": ["education", "books", "religion"],
+    "screenshots": [
+      {
+        "src": "/screenshot1.jpg",
+        "sizes": "1280x720",
+        "type": "image/jpeg"
+      }
+    ]
+  }

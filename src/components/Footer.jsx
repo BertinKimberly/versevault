@@ -6,7 +6,21 @@ export const Footer = () => {
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                <div>
-                  <h3 className="text-lg font-semibold mb-4">VerseVault</h3>
+                  <h3 className="text-lg font-semibold mb-4">
+                     {" "}
+                     <Link
+                        to="/"
+                        className="flex flex-row items-center space-x-2 text-gray-200 hover:text-[#7dabff] transition-colors"
+                     >
+                        <img
+                           className="h-12 md:h-16 2xl:h-20 w-auto"
+                           src="/images/versevault.png"
+                           alt="VerseVault"
+                        />
+                        <span className="text-2xl font-bold">VerseVault</span>
+                     </Link>
+                   
+                  </h3>
                   <p className="text-gray-200">
                      Your digital companion for exploring and understanding
                      Bible scriptures.
@@ -86,9 +100,17 @@ export const Footer = () => {
                         rel="noopener noreferrer"
                         className="text-gray-200 hover:text-[#7dabff] transition-colors"
                      >
-                       <svg  viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
-            <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" fill="white"/>
-          </svg>
+                        <svg
+                           viewBox="0 0 1200 1227"
+                           fill="none"
+                           xmlns="http://www.w3.org/2000/svg"
+                           className="w-6 h-6"
+                        >
+                           <path
+                              d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"
+                              fill="white"
+                           />
+                        </svg>
                      </a>
                   </div>
                </div>
