@@ -3,10 +3,10 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { gsap } from "gsap";
 import MessageBubble from "../components/MessageBubble";
-import SuggestedPrompts from "../components/SUggestedPrompts";
 import InputForm from "../components/InputForm";
 import ChatHistory from "../components/ChatHistory";
 import WelcomeScreen from "../components/WelcomeScreen";
+import SuggestedPrompts from "../components/SUggestedPrompts";
 
 // Predefined gospel-related message prompts
 const suggestedPrompts = [

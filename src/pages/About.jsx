@@ -1,18 +1,72 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, Text, Float } from "@react-three/drei";
+import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// 3D Book Model Component
+const BookModel = () => {
+   return (
+      <Float
+         speed={1}
+         rotationIntensity={0.5}
+         floatIntensity={0.5}
+      >
+         <mesh>
+            <boxGeometry args={[2, 3, 0.3]} />
+            <meshStandardMaterial
+               color="#5a77de"
+               roughness={0.4}
+               metalness={0.2}
+            />
+            <Text
+               position={[0, 0, 0.16]}
+               fontSize={0.3}
+               color="#c4d4ff"
+               anchorX="center"
+               anchorY="middle"
+            >
+               Holy Bible
+            </Text>
+         </mesh>
+         <pointLight
+            position={[5, 5, 5]}
+            intensity={1}
+         />
+      </Float>
+   );
+};
 
 export const About = () => {
    const containerRef = useRef(null);
    const titleRef = useRef(null);
    const cardsRef = useRef(null);
+   const heroRef = useRef(null);
    const bgElements = useRef([]);
+   const statsRef = useRef(null);
 
    useEffect(() => {
       // Main timeline for entrance animation
       const mainTl = gsap.timeline();
+
+      // Hero section animation
+      mainTl.fromTo(
+         ".hero-content",
+         {
+            opacity: 0,
+            y: 50,
+         },
+         {
+            opacity: 1,
+            y: 0,
+            duration: 1.5,
+            ease: "power3.out",
+         },
+         0
+      );
 
       // Animate title with staggered text reveal
       mainTl.fromTo(
@@ -30,26 +84,10 @@ export const About = () => {
             stagger: 0.03,
             ease: "back.out(1.7)",
          },
-         0
+         0.2
       );
 
-      // Subtitle animation
-      mainTl.fromTo(
-         ".about-subtitle",
-         {
-            opacity: 0,
-            y: 30,
-         },
-         {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-         },
-         0.5
-      );
-
-      // Split title text into individual characters for animation
+      // Split title text into individual characters
       const title = titleRef.current;
       if (title) {
          const text = title.innerText;
@@ -86,6 +124,25 @@ export const About = () => {
          }
       );
 
+      // Stats counter animation
+      gsap.fromTo(
+         ".stat-number",
+         {
+            innerText: 0,
+         },
+         {
+            innerText: (el) => el.dataset.target,
+            duration: 2,
+            ease: "power1.out",
+            snap: { innerText: 1 },
+            scrollTrigger: {
+               trigger: statsRef.current,
+               start: "top 80%",
+               toggleActions: "play none none reset",
+            },
+         }
+      );
+
       // Floating background elements
       bgElements.current.forEach((el, index) => {
          gsap.to(el, {
@@ -100,9 +157,9 @@ export const About = () => {
          });
       });
 
-      // Parallax scroll effect for background elements
+      // Parallax scroll effect
       gsap.to(".parallax-bg", {
-         y: -100,
+         y: -150,
          ease: "none",
          scrollTrigger: {
             trigger: containerRef.current,
@@ -112,13 +169,11 @@ export const About = () => {
          },
       });
 
-      // Clean up on unmount
       return () => {
          ScrollTrigger.getAll().forEach((t) => t.kill());
       };
    }, []);
 
-   // Function to add background elements to ref array
    const addToRefs = (el) => {
       if (el && !bgElements.current.includes(el)) {
          bgElements.current.push(el);
@@ -128,116 +183,204 @@ export const About = () => {
    return (
       <div
          ref={containerRef}
-         className="min-h-screen bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white pt-20 relative overflow-hidden"
+         className="bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white relative overflow-hidden"
       >
-         {/* Decorative background elements */}
+         {/* Decorative Background Elements */}
          <div
             ref={addToRefs}
-            className="absolute top-40 right-10 w-32 h-32 bg-gradient-to-br from-[#5a77de]/30 to-[#7dabff]/30 rounded-full filter blur-3xl opacity-50"
+            className="absolute top-20 right-10 w-40 h-40 bg-gradient-to-br from-[#5a77de]/30 to-[#7dabff]/30 rounded-full filter blur-3xl opacity-50"
          ></div>
          <div
             ref={addToRefs}
-            className="absolute bottom-40 left-10 w-40 h-40 bg-gradient-to-br from-[#7dabff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
-         ></div>
-         <div
-            ref={addToRefs}
-            className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-[#c4d4ff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
+            className="absolute bottom-20 left-10 w-48 h-48 bg-gradient-to-br from-[#7dabff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
          ></div>
 
-         {/* Grid pattern background */}
+         {/* Grid Pattern Background */}
          <div className="parallax-bg absolute inset-0 bg-[url('/images/grid.svg')] opacity-10"></div>
 
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-            <div className="text-center mb-16">
-               <h1
-                  ref={titleRef}
-                  className="about-title text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#c4d4ff]"
+         {/* Hero Section with 3D Model */}
+         <section
+            ref={heroRef}
+            className="min-h-screen flex items-center justify-center relative z-10"
+         >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center">
+               <div className="hero-content md:w-1/2 text-center md:text-left">
+                  <h1
+                     ref={titleRef}
+                     className="about-title text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#c4d4ff]"
+                  >
+                     About VerseVault
+                  </h1>
+                  <p className="text-xl text-gray-200 mb-8 max-w-2xl">
+                     Your digital companion for exploring Bible scriptures with
+                     modern technology, featuring an AI chat at{" "}
+                     <a
+                        href="/ai-chat"
+                        className="text-[#7dabff] hover:underline"
+                     >
+                        /ai-chat
+                     </a>{" "}
+                     and advanced Bible search at{" "}
+                     <a
+                        href="/bible-search"
+                        className="text-[#7dabff] hover:underline"
+                     >
+                        /bible-search
+                     </a>
+                     .
+                  </p>
+                  <a
+                     href="/bible-search"
+                     className="inline-block bg-gradient-to-r from-[#5a77de] to-[#7dabff] text-white font-semibold py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300"
+                  >
+                     Explore Now
+                  </a>
+               </div>
+               <div className="md:w-1/2 h-96">
+                  <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                     <ambientLight intensity={0.5} />
+                     <directionalLight
+                        position={[5, 5, 5]}
+                        intensity={1}
+                     />
+                     <BookModel />
+                     <OrbitControls
+                        enableZoom={false}
+                        enablePan={false}
+                     />
+                  </Canvas>
+               </div>
+            </div>
+         </section>
+
+         {/* Features Section */}
+         <section className="py-20 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+               <div
+                  ref={cardsRef}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                >
-                  About VerseVault
-               </h1>
-               <p className="about-subtitle text-xl text-gray-200 max-w-3xl mx-auto">
-                  Your digital companion for exploring and understanding Bible
-                  scriptures in a modern, interactive way.
+                  <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
+                     <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
+                        Our Mission
+                     </h2>
+                     <p className="text-gray-200">
+                        VerseVault makes Bible study accessible and engaging
+                        through innovative technology, enabling everyone to
+                        explore scripture interactively.
+                     </p>
+                  </div>
+
+                  <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
+                     <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
+                        AI-Powered Features
+                     </h2>
+                     <ul className="text-gray-200 space-y-3">
+                        <li className="flex items-center">
+                           <span className="text-[#7dabff] mr-2">•</span>
+                           AI Chat at /ai-chat for scripture insights
+                        </li>
+                        <li className="flex items-center">
+                           <span className="text-[#7dabff] mr-2">•</span>
+                           Advanced Bible Search at /bible-search
+                        </li>
+                        <li className="flex items-center">
+                           <span className="text-[#7dabff] mr-2">•</span>
+                           Interactive 3D Bible book experience
+                        </li>
+                     </ul>
+                  </div>
+
+                  <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
+                     <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
+                        Technology Stack
+                     </h2>
+                     <p className="text-gray-200">
+                        Built with React, Three.js, and Tailwind CSS, VerseVault
+                        offers a seamless, responsive experience with stunning
+                        3D visualizations.
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* Stats Section */}
+         <section
+            ref={statsRef}
+            className="py-20 bg-[#253380]/50"
+         >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+               <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#c4d4ff]">
+                  Our Impact
+               </h2>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                  <div>
+                     <p
+                        className="stat-number text-4xl font-bold text-[#7dabff]"
+                        data-target="100000"
+                     >
+                        31,102
+                     </p>
+                     <p className="text-gray-200 mt-2">Verses Explored</p>
+                  </div>
+                  <div>
+                     <p
+                        className="stat-number text-4xl font-bold text-[#7dabff]"
+                        data-target="50000"
+                     >
+                        120
+                     </p>
+                     <p className="text-gray-200 mt-2">Active Users</p>
+                  </div>
+                  <div>
+                     <p
+                        className="stat-number text-4xl font-bold text-[#7dabff]"
+                        data-target="66"
+                     >
+                        66
+                     </p>
+                     <p className="text-gray-200 mt-2">Books Covered</p>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* Call to Action Section */}
+         <section className="py-20 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+               <h2 className="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-[#c4d4ff]">
+                  Join the VerseVault Community
+               </h2>
+               <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
+                  Experience the Bible like never before with our interactive
+                  tools, AI-powered insights, and beautiful interface.
                </p>
-            </div>
-
-            <div
-               ref={cardsRef}
-               className="grid grid-cols-1 md:grid-cols-2 gap-12"
-            >
-               <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
-                  <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
-                     Our Mission
-                  </h2>
-                  <p className="text-gray-200">
-                     VerseVault aims to make Bible study more accessible and
-                     engaging through modern technology. We believe that
-                     everyone should have easy access to scripture and the
-                     ability to explore its teachings in an interactive and
-                     meaningful way.
-                  </p>
-               </div>
-
-               <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
-                  <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
-                     Features
-                  </h2>
-                  <ul className="text-gray-200 space-y-3">
-                     <li className="flex items-center">
-                        <span className="text-[#7dabff] mr-2">•</span>{" "}
-                        Interactive 3D Bible book experience
-                     </li>
-                     <li className="flex items-center">
-                        <span className="text-[#7dabff] mr-2">•</span> Advanced
-                        Bible verse search functionality
-                     </li>
-                     <li className="flex items-center">
-                        <span className="text-[#7dabff] mr-2">•</span> Beautiful
-                        and intuitive user interface
-                     </li>
-                     <li className="flex items-center">
-                        <span className="text-[#7dabff] mr-2">•</span> Regular
-                        updates with new features
-                     </li>
-                     <li className="flex items-center">
-                        <span className="text-[#7dabff] mr-2">•</span>{" "}
-                        Cross-platform compatibility
-                     </li>
-                  </ul>
-               </div>
-
-               <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
-                  <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
-                     Technology
-                  </h2>
-                  <p className="text-gray-200">
-                     Built with modern web technologies including React,
-                     Three.js, and Tailwind CSS, VerseVault delivers a smooth
-                     and responsive experience across all devices. Our 3D book
-                     interface uses advanced graphics techniques to create an
-                     immersive reading experience.
-                  </p>
-               </div>
-
-               <div className="about-card bg-gradient-to-br from-[#253380]/80 to-[#1c2761]/90 border border-white/10 p-8 rounded-lg backdrop-blur-sm hover:shadow-lg transition-all duration-500 hover:border-[#5a77de]/30">
-                  <h2 className="text-2xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-white to-[#c4d4ff]">
-                     Future Plans
-                  </h2>
-                  <p className="text-gray-200">
-                     We're constantly working to improve VerseVault with new
-                     features and enhancements. Upcoming additions include verse
-                     bookmarking, study notes, and community features to help
-                     users connect and share insights.
-                  </p>
+               <div className="flex justify-center gap-4">
+                  <a
+                     href="/ai-chat"
+                     className="inline-block bg-gradient-to-r from-[#5a77de] to-[#7dabff] text-white font-semibold py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300"
+                  >
+                     Try AI Chat
+                  </a>
+                  <a
+                     href="/bible-search"
+                     className="inline-block border border-[#7dabff] text-[#7dabff] font-semibold py-3 px-8 rounded-full hover:bg-[#7dabff]/10 transition-colors duration-300"
+                  >
+                     Search Scriptures
+                  </a>
                </div>
             </div>
-         </div>
+         </section>
 
-         {/* Background decorative elements */}
-         <div className="absolute top-20 right-5 w-32 h-32 bg-gradient-to-br from-[#5a77de] to-[#7dabff] rounded-full filter blur-3xl opacity-10 animate-float"></div>
+         {/* Additional Background Decorations */}
          <div
-            className="absolute bottom-20 left-5 w-40 h-40 bg-gradient-to-br from-[#7dabff] to-[#5a77de] rounded-full filter blur-3xl opacity-10 animate-float"
-            style={{ animationDelay: "-3s" }}
+            ref={addToRefs}
+            className="absolute top-1/3 right-1/4 w-32 h-32 bg-gradient-to-br from-[#c4d4ff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
+         ></div>
+         <div
+            ref={addToRefs}
+            className="absolute bottom-1/4 left-1/4 w-36 h-36 bg-gradient-to-br from-[#7dabff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
          ></div>
       </div>
    );

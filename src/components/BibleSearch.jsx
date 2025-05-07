@@ -1,76 +1,76 @@
 import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { verseSearchAtom, verseResultAtom } from "./UI";
-import { Fragment } from 'react';
+import { Fragment } from "react";
 
 // Bible structure with accurate chapter counts for each book
 const bibleStructure = {
-  "Genesis": 50,
-  "Exodus": 40,
-  "Leviticus": 27,
-  "Numbers": 36,
-  "Deuteronomy": 34,
-  "Joshua": 24,
-  "Judges": 21,
-  "Ruth": 4,
-  "1 Samuel": 31,
-  "2 Samuel": 24,
-  "1 Kings": 22,
-  "2 Kings": 25,
-  "1 Chronicles": 29,
-  "2 Chronicles": 36,
-  "Ezra": 10,
-  "Nehemiah": 13,
-  "Esther": 10,
-  "Job": 42,
-  "Psalms": 150,
-  "Proverbs": 31,
-  "Ecclesiastes": 12,
-  "Song of Solomon": 8,
-  "Isaiah": 66,
-  "Jeremiah": 52,
-  "Lamentations": 5,
-  "Ezekiel": 48,
-  "Daniel": 12,
-  "Hosea": 14,
-  "Joel": 3,
-  "Amos": 9,
-  "Obadiah": 1,
-  "Jonah": 4,
-  "Micah": 7,
-  "Nahum": 3,
-  "Habakkuk": 3,
-  "Zephaniah": 3,
-  "Haggai": 2,
-  "Zechariah": 14,
-  "Malachi": 4,
-  "Matthew": 28,
-  "Mark": 16,
-  "Luke": 24,
-  "John": 21,
-  "Acts": 28,
-  "Romans": 16,
-  "1 Corinthians": 16,
-  "2 Corinthians": 13,
-  "Galatians": 6,
-  "Ephesians": 6,
-  "Philippians": 4,
-  "Colossians": 4,
-  "1 Thessalonians": 5,
-  "2 Thessalonians": 3,
-  "1 Timothy": 6,
-  "2 Timothy": 4,
-  "Titus": 3,
-  "Philemon": 1,
-  "Hebrews": 13,
-  "James": 5,
-  "1 Peter": 5,
-  "2 Peter": 3,
-  "1 John": 5,
-  "2 John": 1,
-  "3 John": 1,
-  "Jude": 1,
-  "Revelation": 22
+   Genesis: 50,
+   Exodus: 40,
+   Leviticus: 27,
+   Numbers: 36,
+   Deuteronomy: 34,
+   Joshua: 24,
+   Judges: 21,
+   Ruth: 4,
+   "1 Samuel": 31,
+   "2 Samuel": 24,
+   "1 Kings": 22,
+   "2 Kings": 25,
+   "1 Chronicles": 29,
+   "2 Chronicles": 36,
+   Ezra: 10,
+   Nehemiah: 13,
+   Esther: 10,
+   Job: 42,
+   Psalms: 150,
+   Proverbs: 31,
+   Ecclesiastes: 12,
+   "Song of Solomon": 8,
+   Isaiah: 66,
+   Jeremiah: 52,
+   Lamentations: 5,
+   Ezekiel: 48,
+   Daniel: 12,
+   Hosea: 14,
+   Joel: 3,
+   Amos: 9,
+   Obadiah: 1,
+   Jonah: 4,
+   Micah: 7,
+   Nahum: 3,
+   Habakkuk: 3,
+   Zephaniah: 3,
+   Haggai: 2,
+   Zechariah: 14,
+   Malachi: 4,
+   Matthew: 28,
+   Mark: 16,
+   Luke: 24,
+   John: 21,
+   Acts: 28,
+   Romans: 16,
+   "1 Corinthians": 16,
+   "2 Corinthians": 13,
+   Galatians: 6,
+   Ephesians: 6,
+   Philippians: 4,
+   Colossians: 4,
+   "1 Thessalonians": 5,
+   "2 Thessalonians": 3,
+   "1 Timothy": 6,
+   "2 Timothy": 4,
+   Titus: 3,
+   Philemon: 1,
+   Hebrews: 13,
+   James: 5,
+   "1 Peter": 5,
+   "2 Peter": 3,
+   "1 John": 5,
+   "2 John": 1,
+   "3 John": 1,
+   Jude: 1,
+   Revelation: 22,
 };
 
 // Get the list of book names
@@ -88,42 +88,43 @@ export const BibleSearch = () => {
    const [isReading, setIsReading] = useState(false);
    const speechSynthRef = useRef(null);
    const [loadingVerseCount, setLoadingVerseCount] = useState(false);
-   
+
    // Combobox state
    const [bookQuery, setBookQuery] = useState("");
    const [isComboboxOpen, setIsComboboxOpen] = useState(false);
-   
+
    // Filter books based on search query
-   const filteredBooks = bookQuery === ""
-     ? books
-     : books.filter((book) =>
-         book.toLowerCase().includes(bookQuery.toLowerCase())
-       );
+   const filteredBooks =
+      bookQuery === ""
+         ? books
+         : books.filter((book) =>
+              book.toLowerCase().includes(bookQuery.toLowerCase())
+           );
 
    // Initialize speech synthesis and handle clicks outside combobox
    useEffect(() => {
       speechSynthRef.current = window.speechSynthesis;
-      
+
       // Handle clicks outside combobox
       const handleClickOutside = (event) => {
-         if (isComboboxOpen && !event.target.closest('.combobox-container')) {
+         if (isComboboxOpen && !event.target.closest(".combobox-container")) {
             setIsComboboxOpen(false);
          }
       };
-      
-      document.addEventListener('mousedown', handleClickOutside);
-      
+
+      document.addEventListener("mousedown", handleClickOutside);
+
       return () => {
          if (speechSynthRef.current) {
             speechSynthRef.current.cancel();
          }
-         document.removeEventListener('mousedown', handleClickOutside);
+         document.removeEventListener("mousedown", handleClickOutside);
       };
    }, [isComboboxOpen]);
 
    // Load search history from localStorage on component mount
    useEffect(() => {
-      const savedHistory = localStorage.getItem('bibleSearchHistory');
+      const savedHistory = localStorage.getItem("bibleSearchHistory");
       if (savedHistory) {
          try {
             setHistory(JSON.parse(savedHistory));
@@ -153,7 +154,7 @@ export const BibleSearch = () => {
    // Save search history to localStorage whenever it changes
    useEffect(() => {
       if (history.length > 0) {
-         localStorage.setItem('bibleSearchHistory', JSON.stringify(history));
+         localStorage.setItem("bibleSearchHistory", JSON.stringify(history));
       }
    }, [history]);
 
@@ -161,21 +162,21 @@ export const BibleSearch = () => {
    const fetchVerseCount = async (book, chapter) => {
       setLoadingVerseCount(true);
       setSelectedVerse("");
-      
+
       try {
          // Use the Bible API to get the verse count by fetching the chapter
          const encodedSearch = encodeURIComponent(`${book} ${chapter}`);
          const response = await fetch(`https://bible-api.com/${encodedSearch}`);
-         
+
          if (!response.ok) {
             throw new Error(`Failed to fetch: ${response.status}`);
          }
-         
+
          const data = await response.json();
-         
+
          // Determine the verse count from the returned verses
          if (data.verses && data.verses.length > 0) {
-            const maxVerse = Math.max(...data.verses.map(v => v.verse));
+            const maxVerse = Math.max(...data.verses.map((v) => v.verse));
             setVerses(Array.from({ length: maxVerse }, (_, i) => i + 1));
          } else {
             // Fallback in case we can't determine the verse count
@@ -232,7 +233,7 @@ export const BibleSearch = () => {
 
    const readVerse = () => {
       if (!verseResult || verseResult.error) return;
-      
+
       // Cancel any ongoing speech
       if (speechSynthRef.current) {
          speechSynthRef.current.cancel();
@@ -242,9 +243,9 @@ export const BibleSearch = () => {
 
       // Format text to read including reference
       textToRead += `${verseResult.reference}. `;
-      
+
       if (verseResult.verses) {
-         verseResult.verses.forEach(verse => {
+         verseResult.verses.forEach((verse) => {
             textToRead += `Verse ${verse.verse}. ${verse.text} `;
          });
       } else {
@@ -254,7 +255,7 @@ export const BibleSearch = () => {
       const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.rate = 0.9; // Slightly slower for clarity
       utterance.pitch = 1;
-      
+
       // Set callbacks for speech events
       utterance.onstart = () => setIsReading(true);
       utterance.onend = () => setIsReading(false);
@@ -272,14 +273,14 @@ export const BibleSearch = () => {
 
    const clearHistory = () => {
       setHistory([]);
-      localStorage.removeItem('bibleSearchHistory');
+      localStorage.removeItem("bibleSearchHistory");
    };
 
    const loadVerseFromHistory = (item) => {
       // Parse the search string to get parts
       const parts = item.search.split(/[ :]/);
       let bookName, chapterNum, verseNum;
-      
+
       // Handle books with spaces like "1 Samuel"
       if (parts.length > 2 && books.includes(parts[0] + " " + parts[1])) {
          bookName = parts[0] + " " + parts[1];
@@ -290,15 +291,15 @@ export const BibleSearch = () => {
          chapterNum = parts[1];
          verseNum = parts[2];
       }
-      
+
       // Set states
       setSelectedBook(bookName);
-      
+
       // Use setTimeout to allow book state to update first
       setTimeout(() => {
-        if (chapterNum) {
+         if (chapterNum) {
             setSelectedChapter(chapterNum);
-            
+
             // Use another setTimeout for verse to ensure chapter state is updated
             setTimeout(() => {
                if (verseNum) {
@@ -311,7 +312,7 @@ export const BibleSearch = () => {
             searchVerse();
          }
       }, 300);
-      
+
       // Or simply set the result directly from history
       setVerseResult(item);
    };
@@ -329,81 +330,90 @@ export const BibleSearch = () => {
             <div className="w-full md:w-5/6 mx-auto">
                <div className="bg-[#253380]/80 p-8 rounded-lg shadow-xl backdrop-blur-sm">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div>
-  <label className="block text-sm font-medium text-gray-200 mb-2">
-    Book
-  </label>
-  <div className="relative combobox-container">
-    <div className="relative flex items-center w-full bg-[#1c2761] border border-[#5a77de] rounded-lg px-4 py-2">
-      {selectedBook && (
-        <span className="text-[#7dabff] font-semibold mr-2">
-          {selectedBook}
-        </span>
-      )}
-      <input
-        type="text"
-        value={bookQuery}
-        onChange={(e) => {
-          setBookQuery(e.target.value);
-          setIsComboboxOpen(true);
-          if (e.target.value) {
-            setSelectedBook(""); // Clear selected book when typing
-          }
-        }}
-        onFocus={() => setIsComboboxOpen(true)}
-        placeholder={selectedBook ? "" : "Type to search book..."}
-        className="w-full bg-transparent text-white focus:outline-none"
-      />
-      <button
-        className="absolute right-2 top-2 text-gray-300 hover:text-white"
-        onClick={() => setIsComboboxOpen(!isComboboxOpen)}
-      >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d={isComboboxOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-          />
-        </svg>
-      </button>
-    </div>
+                     <div>
+                        <label className="block text-sm font-medium text-gray-200 mb-2">
+                           Book
+                        </label>
+                        <div className="relative combobox-container">
+                           <div className="relative flex items-center w-full bg-[#1c2761] border border-[#5a77de] rounded-lg px-4 py-2">
+                              {selectedBook && (
+                                 <span className="text-[#7dabff] font-semibold mr-2">
+                                    {selectedBook}
+                                 </span>
+                              )}
+                              <input
+                                 type="text"
+                                 value={bookQuery}
+                                 onChange={(e) => {
+                                    setBookQuery(e.target.value);
+                                    setIsComboboxOpen(true);
+                                    if (e.target.value) {
+                                       setSelectedBook(""); // Clear selected book when typing
+                                    }
+                                 }}
+                                 onFocus={() => setIsComboboxOpen(true)}
+                                 placeholder={
+                                    selectedBook ? "" : "Type to search book..."
+                                 }
+                                 className="w-full bg-transparent text-white focus:outline-none"
+                              />
+                              <button
+                                 className="absolute right-2 top-2 text-gray-300 hover:text-white"
+                                 onClick={() =>
+                                    setIsComboboxOpen(!isComboboxOpen)
+                                 }
+                              >
+                                 <svg
+                                    className="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                 >
+                                    <path
+                                       strokeLinecap="round"
+                                       strokeLinejoin="round"
+                                       strokeWidth="2"
+                                       d={
+                                          isComboboxOpen
+                                             ? "M5 15l7-7 7 7"
+                                             : "M19 9l-7 7-7-7"
+                                       }
+                                    />
+                                 </svg>
+                              </button>
+                           </div>
 
-    {isComboboxOpen && (
-      <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-[#1c2761] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-        {filteredBooks.length === 0 && bookQuery !== "" ? (
-          <div className="relative cursor-default select-none py-2 px-4 text-gray-300">
-            No books found.
-          </div>
-        ) : (
-          filteredBooks.map((book) => (
-            <div
-              key={book}
-              className={`relative cursor-pointer select-none py-2 px-4 ${
-                selectedBook === book
-                  ? "bg-[#3A59D1] text-white"
-                  : "text-gray-200 hover:bg-[#253380]"
-              }`}
-              onClick={() => {
-                setSelectedBook(book);
-                setBookQuery(""); // Clear query after selection
-                setIsComboboxOpen(false);
-              }}
-            >
-              {book}
-            </div>
-          ))
-        )}
-      </div>
-    )}
-  </div>
-</div>
+                           {isComboboxOpen && (
+                              <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-[#1c2761] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                 {filteredBooks.length === 0 &&
+                                 bookQuery !== "" ? (
+                                    <div className="relative cursor-default select-none py-2 px-4 text-gray-300">
+                                       No books found.
+                                    </div>
+                                 ) : (
+                                    filteredBooks.map((book) => (
+                                       <div
+                                          key={book}
+                                          className={`relative cursor-pointer select-none py-2 px-4 ${
+                                             selectedBook === book
+                                                ? "bg-[#3A59D1] text-white"
+                                                : "text-gray-200 hover:bg-[#253380]"
+                                          }`}
+                                          onClick={() => {
+                                             setSelectedBook(book);
+                                             setBookQuery(""); // Clear query after selection
+                                             setIsComboboxOpen(false);
+                                          }}
+                                       >
+                                          {book}
+                                       </div>
+                                    ))
+                                 )}
+                              </div>
+                           )}
+                        </div>
+                     </div>
 
                      <div>
                         <label className="block text-sm font-medium text-gray-200 mb-2">
@@ -507,8 +517,20 @@ export const BibleSearch = () => {
                                        onClick={stopReading}
                                        className="flex items-center bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
                                     >
-                                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                          <rect x="6" y="6" width="12" height="12" strokeWidth="2" />
+                                       <svg
+                                          className="w-5 h-5 mr-2"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          viewBox="0 0 24 24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                       >
+                                          <rect
+                                             x="6"
+                                             y="6"
+                                             width="12"
+                                             height="12"
+                                             strokeWidth="2"
+                                          />
                                        </svg>
                                        Stop
                                     </button>
@@ -517,8 +539,19 @@ export const BibleSearch = () => {
                                        onClick={readVerse}
                                        className="flex items-center bg-[#3A59D1] hover:bg-[#5a77de] text-white px-4 py-2 rounded-lg"
                                     >
-                                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.414l-2.829-2.829a1 1 0 010-1.414l2.829-2.829m2.828 2.828L14.414 12l-6-6 6 6-6 6 6-6"></path>
+                                       <svg
+                                          className="w-5 h-5 mr-2"
+                                          fill="none"
+                                          stroke="currentColor"
+                                          viewBox="0 0 24 24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                       >
+                                          <path
+                                             strokeLinecap="round"
+                                             strokeLinejoin="round"
+                                             strokeWidth="2"
+                                             d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.414l-2.829-2.829a1 1 0 010-1.414l2.829-2.829m2.828 2.828L14.414 12l-6-6 6 6-6 6 6-6"
+                                          ></path>
                                        </svg>
                                        Read Aloud
                                     </button>
@@ -546,10 +579,6 @@ export const BibleSearch = () => {
                                  {verseResult.text}
                               </p>
                            )}
-                           <div className="mt-4 text-sm text-gray-300">
-                              {verseResult.translation_name} (
-                              {verseResult.translation_note})
-                           </div>
                         </div>
                      )}
                   </div>
