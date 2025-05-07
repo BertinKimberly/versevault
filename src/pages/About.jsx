@@ -4,6 +4,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Text, Float } from "@react-three/drei";
 import * as THREE from "three";
+import { Helmet } from "react-helmet";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -181,6 +182,16 @@ export const About = () => {
    };
 
    return (
+      <>
+       <Helmet>
+                      <meta charSet="utf-8" />
+                      <title>About | VerseVault</title>
+                      <meta
+                         name="description"
+                         content="Explore the Bible in a new, immersive 3D experience designed for modern readers."
+                      />
+                       
+                  </Helmet>
       <div
          ref={containerRef}
          className="bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white relative overflow-hidden"
@@ -383,5 +394,6 @@ export const About = () => {
             className="absolute bottom-1/4 left-1/4 w-36 h-36 bg-gradient-to-br from-[#7dabff]/30 to-[#5a77de]/30 rounded-full filter blur-3xl opacity-50"
          ></div>
       </div>
+      </>
    );
 };

@@ -10,6 +10,7 @@ import { pageAtom } from "../components/UI";
 import axios from "axios";
 import SpiritualMindmap from "../components/SpiritualMindmap";
 import AIChat from "../components/AIChat";
+import {Helmet} from "react-helmet";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -315,6 +316,20 @@ export const Home = () => {
 
    return (
       <>
+       <Helmet>
+                <meta charSet="utf-8" />
+                <title>Home | VerseVault</title>
+                <meta
+                   name="description"
+                   content="Explore the Bible in a new, immersive 3D experience designed for modern readers."
+                />
+                  <meta
+                     name="viewport"
+                     content="width=device-width, initial-scale=1.0"
+                  />
+                  <meta name="keywords" content="Bible, 3D, Interactive, Experience, VerseVault" />
+                  <meta name="author" content="Bertin Iradukunda" />
+            </Helmet>
          <div
             className="relative"
             ref={containerRef}

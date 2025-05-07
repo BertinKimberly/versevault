@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { verseSearchAtom, verseResultAtom } from "./UI";
 import { Fragment } from "react";
+import { Helmet } from "react-helmet";
 
 // Bible structure with accurate chapter counts for each book
 const bibleStructure = {
@@ -318,6 +319,16 @@ export const BibleSearch = () => {
    };
 
    return (
+      <>
+        <Helmet>
+                            <meta charSet="utf-8" />
+                            <title>BibleSearch | VerseVault</title>
+                            <meta
+                               name="description"
+                               content="Search for any verse in the Bible on verseVault."
+                            />
+                             
+                        </Helmet>
       <div className="min-h-screen bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white pt-20">
          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="text-center mb-12">
@@ -623,5 +634,6 @@ export const BibleSearch = () => {
             </div>
          </div>
       </div>
+      </>
    );
 };

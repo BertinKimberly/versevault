@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { gsap } from "gsap";
 import MessageBubble from "../components/MessageBubble";
 import InputForm from "../components/InputForm";
 import ChatHistory from "../components/ChatHistory";
 import WelcomeScreen from "../components/WelcomeScreen";
-import SuggestedPrompts from "../components/SUggestedPrompts";
+import SuggestedPrompts from "../components/SuggestedPrompts";
+import {Helmet} from "react-helmet"
 
 // Expanded list of all Bible books
 const BIBLE_BOOKS = [
@@ -745,6 +744,16 @@ export const Chatbot = () => {
    };
 
    return (
+      <>
+      <Helmet>
+      <meta charSet="utf-8" />
+      <title>AI Chat | VerseVault</title>
+      <meta
+         name="description"
+         content="Chat with an AI assistant about Bible verses, Christian teachings, and guidance."
+      />
+       
+  </Helmet>
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-800 to-[#3A59D1] text-white pt-10">
          <div className="container mx-auto px-4 py-12 w-full md:w-[90%] xl:w-5/6">
             <div
@@ -842,5 +851,6 @@ export const Chatbot = () => {
             </div>
          </div>
       </div>
+      </>
    );
 };

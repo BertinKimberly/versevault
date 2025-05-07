@@ -1,3 +1,6 @@
+import React from "react";
+import { Helmet } from "react-helmet";
+
 export const Contact = () => {
    const socialLinks = [
       {
@@ -49,9 +52,17 @@ export const Contact = () => {
       {
          name: "X",
          icon: (
-            <svg  viewBox="0 0 1200 1227" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
-            <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" fill="white"/>
-          </svg>
+            <svg
+               viewBox="0 0 1200 1227"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg"
+               className="w-8 h-8"
+            >
+               <path
+                  d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"
+                  fill="white"
+               />
+            </svg>
          ),
          link: "https://x.com/Iradukunda31950",
          color: "bg-gradient-to-br from-[#7dabff] to-[#3A59D1]",
@@ -59,55 +70,66 @@ export const Contact = () => {
    ];
 
    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white pt-20">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center mb-12">
-               <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-               <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-                  Get in touch with us through any of our social media channels
-                  or email.
-               </p>
-            </div>
+      <>
+         <Helmet>
+            <meta charSet="utf-8" />
+            <title>Contact | VerseVault</title>
+            <meta
+               name="description"
+               content="Contact us through our social media channels or email."
+            />
+         </Helmet>
+         <div className="min-h-screen bg-gradient-to-b from-[#3A59D1] to-[#253380] text-white pt-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+               <div className="text-center mb-12">
+                  <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+                  <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+                     Get in touch with us through any of our social media
+                     channels or email.
+                  </p>
+               </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-               {socialLinks.map((social) => (
-                  <a
-                     key={social.name}
-                     href={social.link}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className={`${social.color} p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl`}
-                  >
-                     <div className="flex flex-col items-center text-center">
-                        <div className="text-white mb-4">{social.icon}</div>
-                        <h3 className="text-xl font-semibold text-white">
-                           {social.name}
-                        </h3>
-                     </div>
-                  </a>
-               ))}
-            </div>
-
-            <div className="mt-20 relative">
-               <div className="absolute inset-0 bg-gradient-to-r from-[#3A59D1] to-[#7dabff] opacity-10 rounded-lg"></div>
-               <div className="relative bg-[#253380]/40 border border-[#3A59D1]/50 rounded-lg p-8 backdrop-blur-sm">
-                  <div className="text-center">
-                     <h2 className="text-2xl font-semibold mb-4 text-[#7dabff]">
-                        Send us a Message
-                     </h2>
-                     <p className="text-gray-200 mb-8">
-                        Have questions or feedback? We'd love to hear from you!
-                     </p>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  {socialLinks.map((social) => (
                      <a
-                        href="mailto:reviveg100@gmail.com"
-                        className="inline-block bg-[#3A59D1] hover:bg-[#5a77de] text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                        key={social.name}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${social.color} p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl`}
                      >
-                        Send Email
+                        <div className="flex flex-col items-center text-center">
+                           <div className="text-white mb-4">{social.icon}</div>
+                           <h3 className="text-xl font-semibold text-white">
+                              {social.name}
+                           </h3>
+                        </div>
                      </a>
+                  ))}
+               </div>
+
+               <div className="mt-20 relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#3A59D1] to-[#7dabff] opacity-10 rounded-lg"></div>
+                  <div className="relative bg-[#253380]/40 border border-[#3A59D1]/50 rounded-lg p-8 backdrop-blur-sm">
+                     <div className="text-center">
+                        <h2 className="text-2xl font-semibold mb-4 text-[#7dabff]">
+                           Send us a Message
+                        </h2>
+                        <p className="text-gray-200 mb-8">
+                           Have questions or feedback? We'd love to hear from
+                           you!
+                        </p>
+                        <a
+                           href="mailto:reviveg100@gmail.com"
+                           className="inline-block bg-[#3A59D1] hover:bg-[#5a77de] text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                        >
+                           Send Email
+                        </a>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
-      </div>
+      </>
    );
 };
