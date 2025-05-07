@@ -8,7 +8,223 @@ import ChatHistory from "../components/ChatHistory";
 import WelcomeScreen from "../components/WelcomeScreen";
 import SuggestedPrompts from "../components/SUggestedPrompts";
 
-// Predefined gospel-related message prompts
+// Expanded list of all Bible books
+const BIBLE_BOOKS = [
+   // Old Testament
+   "Genesis",
+   "Exodus",
+   "Leviticus",
+   "Numbers",
+   "Deuteronomy",
+   "Joshua",
+   "Judges",
+   "Ruth",
+   "1 Samuel",
+   "2 Samuel",
+   "1 Kings",
+   "2 Kings",
+   "1 Chronicles",
+   "2 Chronicles",
+   "Ezra",
+   "Nehemiah",
+   "Esther",
+   "Job",
+   "Psalms",
+   "Proverbs",
+   "Ecclesiastes",
+   "Song of Solomon",
+   "Isaiah",
+   "Jeremiah",
+   "Lamentations",
+   "Ezekiel",
+   "Daniel",
+   "Hosea",
+   "Joel",
+   "Amos",
+   "Obadiah",
+   "Jonah",
+   "Micah",
+   "Nahum",
+   "Habakkuk",
+   "Zephaniah",
+   "Haggai",
+   "Zechariah",
+   "Malachi",
+
+   // New Testament
+   "Matthew",
+   "Mark",
+   "Luke",
+   "John",
+   "Acts",
+   "Romans",
+   "1 Corinthians",
+   "2 Corinthians",
+   "Galatians",
+   "Ephesians",
+   "Philippians",
+   "Colossians",
+   "1 Thessalonians",
+   "2 Thessalonians",
+   "1 Timothy",
+   "2 Timothy",
+   "Titus",
+   "Philemon",
+   "Hebrews",
+   "James",
+   "1 Peter",
+   "2 Peter",
+   "1 John",
+   "2 John",
+   "3 John",
+   "Jude",
+   "Revelation",
+];
+
+// Comprehensive gospel-related terms
+const GOSPEL_TERMS = [
+   // Core Christian concepts
+   "salvation",
+   "redemption",
+   "atonement",
+   "grace",
+   "mercy",
+   "faith",
+   "hope",
+   "love",
+   "charity",
+   "repentance",
+   "baptism",
+   "communion",
+   "eucharist",
+   "resurrection",
+   "ascension",
+   "second coming",
+   "rapture",
+   "millennium",
+   "heaven",
+   "hell",
+   "sin",
+   "righteousness",
+   "holiness",
+   "sanctification",
+   "justification",
+
+   // Biblical figures
+   "Adam",
+   "Eve",
+   "Noah",
+   "Abraham",
+   "Sarah",
+   "Isaac",
+   "Rebekah",
+   "Jacob",
+   "Joseph",
+   "Moses",
+   "Aaron",
+   "Miriam",
+   "Joshua",
+   "Deborah",
+   "Gideon",
+   "Samson",
+   "Samuel",
+   "David",
+   "Solomon",
+   "Elijah",
+   "Elisha",
+   "Isaiah",
+   "Jeremiah",
+   "Daniel",
+   "Jonah",
+   "Mary",
+   "Joseph",
+   "John the Baptist",
+   "Peter",
+   "Paul",
+   "James",
+   "John",
+   "Andrew",
+   "Philip",
+   "Thomas",
+   "Matthew",
+   "Judas",
+   "Stephen",
+   "Barnabas",
+   "Timothy",
+
+   // Christian practices
+   "prayer",
+   "fasting",
+   "worship",
+   "praise",
+   "thanksgiving",
+   "tithing",
+   "offering",
+   "fellowship",
+   "discipleship",
+   "evangelism",
+   "mission",
+   "ministry",
+   "service",
+   "sacrifice",
+   "stewardship",
+
+   // Church concepts
+   "church",
+   "congregation",
+   "body of Christ",
+   "bride of Christ",
+   "kingdom of God",
+   "apostles",
+   "prophets",
+   "evangelists",
+   "pastors",
+   "teachers",
+   "elders",
+   "deacons",
+   "laity",
+   "clergy",
+   "denomination",
+
+   // Theological terms
+   "Trinity",
+   "Father",
+   "Son",
+   "Holy Spirit",
+   "incarnation",
+   "virgin birth",
+   "crucifixion",
+   "cross",
+   "blood of Christ",
+   "Lamb of God",
+   "Alpha and Omega",
+   "Immanuel",
+   "Messiah",
+   "Christ",
+   "Savior",
+   "Lord",
+   "King of Kings",
+   "Lord of Lords",
+   "Good Shepherd",
+   "Light of the World",
+   "Word of God",
+   "prophecy",
+   "revelation",
+   "apocalypse",
+   "covenant",
+   "law",
+   "gospel",
+   "parable",
+   "miracle",
+   "sign",
+   "wonder",
+   "testimony",
+   "witness",
+   "disciple",
+   "apostle",
+];
+
+// Expanded suggested prompts
 const suggestedPrompts = [
    "Explain John 3:16",
    "What does the Bible say about forgiveness?",
@@ -16,17 +232,47 @@ const suggestedPrompts = [
    "How can I practice Christian love in daily life?",
    "What is the meaning of Psalm 23?",
    "Share a verse about hope",
+   "What are the fruits of the Spirit?",
+   "Explain the significance of Jesus' resurrection",
+   "How should Christians respond to persecution?",
+   "What does the Bible say about marriage?",
+   "Tell me about the armor of God in Ephesians 6",
+   "What is the Great Commission?",
+   "Explain the Beatitudes from Matthew 5",
+   "What does Proverbs say about wisdom?",
+   "How can I grow in my faith?",
+   "What is the significance of Pentecost?",
+   "Explain the parable of the prodigal son",
+   "What does the Bible say about prayer?",
+   "Tell me about the Ten Commandments",
+   "How should Christians handle conflict?",
 ];
 
-// System prompt to guide the chatbot's behavior
-const SYSTEM_PROMPT = `You are a helpful Christian assistant specializing in Bible knowledge and good manners. Follow these rules:
-- Answer questions about Bible verses, stories, and teachings
-- Provide guidance on Christian living and social etiquette
-- If asked about other topics, politely decline with: "I'm here to assist with Bible-related questions and Christian living. Please ask about those topics."
-- Keep responses concise and scripturally accurate
-- Reference Bible verses when appropriate (e.g., John 3:16)
-- Format responses in Markdown for clarity, using headings, lists, and blockquotes where appropriate
-- Respond naturally to greetings and casual conversation`;
+// Enhanced system prompt
+const SYSTEM_PROMPT = `You are a knowledgeable Christian assistant specializing in Bible knowledge, theology, and Christian living. Follow these rules:
+
+1. Bible Knowledge:
+- Answer questions about all Bible books (${BIBLE_BOOKS.join(", ")})
+- Provide accurate explanations of verses, passages, and stories
+- Explain biblical concepts like ${GOSPEL_TERMS.slice(0, 10).join(", ")} etc.
+- Cross-reference related scriptures when appropriate
+- Provide historical and cultural context where helpful
+
+2. Christian Living:
+- Offer biblical guidance on practical Christian life
+- Suggest relevant scriptures for life situations
+- Provide advice grounded in Christian values
+- Recommend prayer approaches for different needs
+- Explain Christian doctrines and practices
+
+3. Response Guidelines:
+- If asked about other topics, politely respond: "I specialize in Bible-related questions and Christian living. How can I help you with those topics?"
+- Keep responses clear, concise and scripturally accurate
+- Format responses in Markdown (headings, lists, bold, italics, blockquotes)
+- Reference Bible verses properly (e.g., John 3:16)
+- For complex topics, break explanations into logical sections
+- Maintain a gracious, compassionate tone
+- When appropriate, suggest related scriptures to explore`;
 
 export const Chatbot = () => {
    const [messages, setMessages] = useState([]);
@@ -47,43 +293,43 @@ export const Chatbot = () => {
 
    // Enhanced speech recognition setup
    useEffect(() => {
-      if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (
+         "SpeechRecognition" in window ||
+         "webkitSpeechRecognition" in window
+      ) {
+         const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
          recognitionRef.current = new SpeechRecognition();
-         
-         // Configure recognition settings
+
          recognitionRef.current.continuous = true;
          recognitionRef.current.interimResults = true;
-         recognitionRef.current.lang = 'en-US'; // Set language - can be made configurable
-         
-         let finalTranscript = '';
+         recognitionRef.current.lang = "en-US";
+
+         let finalTranscript = "";
          let debounceTimeout;
-         
+
          recognitionRef.current.onstart = () => {
-            finalTranscript = '';
+            finalTranscript = "";
             setIsListening(true);
             console.log("Speech recognition started");
          };
-         
+
          recognitionRef.current.onresult = (event) => {
-            let interimTranscript = '';
-            
-            // Process results
+            let interimTranscript = "";
+
             for (let i = event.resultIndex; i < event.results.length; i++) {
                const transcript = event.results[i][0].transcript;
-               
+
                if (event.results[i].isFinal) {
-                  finalTranscript += transcript + ' ';
+                  finalTranscript += transcript + " ";
                } else {
                   interimTranscript += transcript;
                }
             }
-            
-            // Update input with combined transcript
+
             const combinedTranscript = finalTranscript + interimTranscript;
             setTranscript(combinedTranscript);
-            
-            // Update input field with debounce to reduce flicker
+
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
                setInput(combinedTranscript.trim());
@@ -93,23 +339,21 @@ export const Chatbot = () => {
          recognitionRef.current.onend = () => {
             setIsListening(false);
             console.log("Speech recognition ended");
-            
-            // Auto-submit if we have a reasonable length final transcript
+
             if (finalTranscript.trim().length > 5) {
                setInput(finalTranscript.trim());
-               // Don't auto-submit as it might be confusing to users
-               // Instead, let them review what was transcribed first
             }
          };
 
          recognitionRef.current.onerror = (event) => {
             console.error("Speech recognition error", event.error);
             setIsListening(false);
-            
-            // Handle specific errors
-            if (event.error === 'not-allowed') {
-               setError("Microphone access denied. Please check your browser permissions.");
-            } else if (event.error === 'no-speech') {
+
+            if (event.error === "not-allowed") {
+               setError(
+                  "Microphone access denied. Please check your browser permissions."
+               );
+            } else if (event.error === "no-speech") {
                console.log("No speech detected");
             } else {
                setError(`Speech recognition error: ${event.error}`);
@@ -166,7 +410,6 @@ export const Chatbot = () => {
    // Save chat history to localStorage
    useEffect(() => {
       if (messages.length > 0 && activeChatId) {
-         // Save current chat messages
          const updatedChats = [...previousChats];
          const chatIndex = updatedChats.findIndex(
             (chat) => chat.id === activeChatId
@@ -176,7 +419,6 @@ export const Chatbot = () => {
             updatedChats[chatIndex].messages = messages;
             updatedChats[chatIndex].lastUpdated = new Date().toISOString();
          } else {
-            // Should not happen but handle just in case
             updatedChats.push({
                id: activeChatId,
                title: messages[1]?.content.substring(0, 30) || "New Chat",
@@ -222,14 +464,13 @@ export const Chatbot = () => {
          setError("Speech recognition is not supported in your browser");
          return;
       }
-      
+
       if (isListening) {
          recognitionRef.current.stop();
       } else {
-         // Clear previous transcript when starting new session
          setTranscript("");
          setInput("");
-         
+
          try {
             recognitionRef.current.start();
          } catch (error) {
@@ -256,31 +497,34 @@ export const Chatbot = () => {
       if (greetings.some((greeting) => text.toLowerCase().includes(greeting)))
          return true;
 
+      // Combine all gospel-related keywords
       const gospelKeywords = [
+         ...BIBLE_BOOKS.map((book) => book.toLowerCase()),
+         ...GOSPEL_TERMS,
          "bible",
          "scripture",
          "verse",
+         "chapter",
+         "testament",
+         "old testament",
+         "new testament",
+         "gospel",
+         "christian",
          "jesus",
          "christ",
          "god",
+         "lord",
          "holy",
          "spirit",
-         "christian",
          "faith",
-         "gospel",
-         "psalm",
-         "proverb",
-         "parable",
-         "forgiveness",
-         "love",
-         "hope",
+         "church",
+         "pray",
          "prayer",
-         "etiquette",
-         "manners",
+         "worship",
       ];
 
       return gospelKeywords.some((keyword) =>
-         text.toLowerCase().includes(keyword)
+         text.toLowerCase().includes(keyword.toLowerCase())
       );
    };
 
@@ -560,17 +804,17 @@ export const Chatbot = () => {
                            </div>
                         )}
                         {isListening && (
-                          <div className="flex justify-start items-center">
-                            <div className="bg-blue-500/30 backdrop-blur-lg text-white rounded-xl p-4 max-w-3/4">
-                              <div className="flex items-center space-x-2">
-                                <div className="relative">
-                                  <div className="w-3 h-3 bg-blue-400 rounded-full animate-ping absolute"></div>
-                                  <div className="w-3 h-3 bg-blue-500 rounded-full relative"></div>
-                                </div>
-                                <p>Listening: "{transcript}"</p>
+                           <div className="flex justify-start items-center">
+                              <div className="bg-blue-500/30 backdrop-blur-lg text-white rounded-xl p-4 max-w-3/4">
+                                 <div className="flex items-center space-x-2">
+                                    <div className="relative">
+                                       <div className="w-3 h-3 bg-blue-400 rounded-full animate-ping absolute"></div>
+                                       <div className="w-3 h-3 bg-blue-500 rounded-full relative"></div>
+                                    </div>
+                                    <p>Listening: "{transcript}"</p>
+                                 </div>
                               </div>
-                            </div>
-                          </div>
+                           </div>
                         )}
                         <div ref={messagesEndRef} />
                      </div>

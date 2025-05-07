@@ -1,3 +1,4 @@
+// Book.jsx
 import { useCursor, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
@@ -84,6 +85,55 @@ const pageMaterials = [
       color: whiteColor,
    }),
 ];
+
+const TexturePreloader = () => {
+   // State to track loading progress
+   const [progress, setProgress] = useState(0);
+   const [loaded, setLoaded] = useState(false);
+   
+   useEffect(() => {
+      let totalTextures = pages.length * 2 + 1; // Front + back for each page + roughness
+      let loadedTextures = 0;
+      
+      const handleTextureLoad = () => {
+         loadedTextures++;
+         setProgress(Math.floor((loadedTextures / totalTextures) * 100));
+         if (loadedTextures === totalTextures) {
+            setLoaded(true);
+         }
+      };
+      
+      // Register listener for texture loading events
+      const textureLoadListener = () => {
+         handleTextureLoad();
+      };
+      
+      // Add event listener to the texture loader
+      window.addEventListener('textureLoad', textureLoadListener);
+      
+      // Preload all textures
+      pages.forEach((page) => {
+         const frontTexture = new Image();
+         frontTexture.onload = handleTextureLoad;
+         frontTexture.src = `/textures/${page.front}.png`;
+         
+         const backTexture = new Image();
+         backTexture.onload = handleTextureLoad;
+         backTexture.src = `/textures/${page.back}.png`;
+      });
+      
+      // Also load roughness map
+      const roughnessTexture = new Image();
+      roughnessTexture.onload = handleTextureLoad;
+      roughnessTexture.src = `/textures/book-cover-roughness.png`;
+      
+      return () => {
+         window.removeEventListener('textureLoad', textureLoadListener);
+      };
+   }, []);
+   
+   return { progress, loaded };
+};
 
 pages.forEach((page) => {
    useTexture.preload(`/textures/${page.front}.png`);
@@ -267,8 +317,20 @@ export const Book = ({ ...props }) => {
    const [delayedPage, setDelayedPage] = useState(page);
    const bookGroupRef = useRef();
    
+   // State to track book loading
+   const [modelLoaded, setModelLoaded] = useState(false);
+   
    // State to track book rotation
    const rotationRef = useRef(0);
+   
+   useEffect(() => {
+      // Simulate model loading with a small delay to ensure textures load properly
+      const loadTimeout = setTimeout(() => {
+         setModelLoaded(true);
+      }, 1000);
+      
+      return () => clearTimeout(loadTimeout);
+   }, []);
    
    useEffect(() => {
       let timeout;
@@ -334,9 +396,17 @@ export const Book = ({ ...props }) => {
       );
    });
 
+   // Dispatch custom event when model is loaded
+   useEffect(() => {
+      if (modelLoaded) {
+         const event = new CustomEvent('bookModelLoaded');
+         window.dispatchEvent(event);
+      }
+   }, [modelLoaded]);
+
    return (
       <group ref={bookGroupRef} {...props} rotation-y={-Math.PI / 2} position-y={-0.3}>
-         {[...pages].map((pageData, index) => (
+         {modelLoaded && [...pages].map((pageData, index) => (
             <Page
                key={index}
                page={delayedPage}
@@ -349,3 +419,6 @@ export const Book = ({ ...props }) => {
       </group>
    );
 };
+
+// Export the TexturePreloader to be used elsewhere
+export { TexturePreloader };

@@ -9,6 +9,7 @@ import { useAtom } from "jotai";
 import { pageAtom } from "../components/UI";
 import axios from "axios";
 import SpiritualMindmap from "../components/SpiritualMindmap";
+import AIChat from "../components/AIChat";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -298,6 +299,18 @@ export const Home = () => {
       return () => {
          ScrollTrigger.getAll().forEach((t) => t.kill());
       };
+   }, []);
+
+   const [canvasLoaded, setCanvasLoaded] = useState(false);
+   
+   // Set canvas as loaded after a minimum time to ensure
+   // other content is visible even while 3D is loading
+   useEffect(() => {
+      const timer = setTimeout(() => {
+         setCanvasLoaded(true);
+      }, 500);
+      
+      return () => clearTimeout(timer);
    }, []);
 
    return (
@@ -621,6 +634,7 @@ export const Home = () => {
                   </div>
                </div>
             </section>
+            <AIChat/>
             {/* Call to Action Section */}
             <section
                ref={ctaRef}

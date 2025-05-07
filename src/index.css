@@ -252,3 +252,55 @@ body {
  .hide-scrollbar::-webkit-scrollbar {
    display: none; /* Chrome, Safari, Opera */
  }
+
+
+ 
+@keyframes page-flip {
+   0% {
+     transform: perspective(1200px) rotateY(0deg);
+   }
+   50% {
+     transform: perspective(1200px) rotateY(-20deg);
+   }
+   100% {
+     transform: perspective(1200px) rotateY(0deg);
+   }
+ }
+ 
+ .animate-page-flip {
+   animation: page-flip 2s ease-in-out infinite;
+ }
+ 
+ @keyframes float {
+   0% {
+     transform: translateY(0px);
+   }
+   50% {
+     transform: translateY(-15px);
+   }
+   100% {
+     transform: translateY(0px);
+   }
+ }
+ 
+ .animate-float {
+   animation: float 6s ease-in-out infinite;
+ }
+ 
+ @keyframes horizontal-scroll {
+   0% {
+     transform: translateX(0);
+   }
+   100% {
+     transform: translateX(-100%);
+   }
+ }
+ 
+ .animate-horizontal-scroll {
+   animation: horizontal-scroll 40s linear infinite;
+ }
+ 
+ .animate-horizontal-scroll-2 {
+   animation: horizontal-scroll 40s linear infinite;
+   animation-delay: 20s;
+ }
