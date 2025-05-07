@@ -3,16 +3,252 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+   --stripe-purple: #635bff;
+   --stripe-purple-light: #7a73ff;
+   --stripe-light-purple: #9f8fff;
+   --stripe-dark-purple: #4339ca;
+   --stripe-gray-dark: #0a2540;
+   --stripe-gray: #425466;
+   --glow-color: rgba(99, 91, 255, 0.6);
+}
+
+@keyframes marquee {
+   0% {
+      transform: translateX(0);
+   }
+   100% {
+      transform: translateX(-100%);
+   }
+}
+
+.animate-marquee {
+   animation: marquee 20s linear infinite;
+}
+
+.animate-horizontal-text {
+   animation: horizontalText 20s ease-in-out infinite alternate;
+}
+
+@keyframes horizontalText {
+   0%,
+   10% {
+      transform: translateX(-5%);
+   }
+   90%,
+   100% {
+      transform: translateX(5%);
+   }
+}
+
+/* Gradient animations */
+.bg-gradient-stripe {
+   background: linear-gradient(135deg, var(--stripe-purple) 0%, #a5b4fc 100%);
+}
+
+.bg-gradient-dark {
+   background: linear-gradient(to bottom, var(--stripe-gray-dark), #071226);
+}
+
+@keyframes gradient-x {
+   0% {
+      background-position: 0% 50%;
+   }
+   50% {
+      background-position: 100% 50%;
+   }
+   100% {
+      background-position: 0% 50%;
+   }
+}
+
+.animate-gradient-x {
+   background-size: 400% 400%;
+   animation: gradient-x 15s ease infinite;
+}
+
+/* 3D perspective for sections */
+.features-section,
+.how-it-works-section,
+.cta-section {
+   transform-style: preserve-3d;
+   perspective: 1000px;
+}
+
+/* Hover effects for cards */
+.feature-card,
+.about-card {
+   transform-style: preserve-3d;
+   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      box-shadow 0.5s ease-out, border-color 0.3s ease;
+}
+
+.feature-card:hover,
+.about-card:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3),
+      0 0 15px 2px rgba(99, 91, 255, 0.2);
+   border-color: var(--stripe-purple);
+}
+
+.step-card {
+   transform-style: preserve-3d;
+   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      box-shadow 0.5s ease;
+
+}
+
+.step-card:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3),
+      0 0 15px 2px rgba(99, 91, 255, 0.2);
+}
+
+/* Shadow glow effect for Stripe-like UI */
+.shadow-glow {
+   box-shadow: 0 0 15px var(--glow-color);
+}
+
+/* Book page buttons */
+button {
+   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+button:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.3),
+      0 0 15px 2px rgba(99, 91, 255, 0.2);
+}
+
+/* Apply 3D effect to whole page */
+html,
+body {
+   transform-style: preserve-3d;
+   perspective: 1000px;
+   overflow-x: hidden;
+   background-color: #0a2540;
+   font-family: "Poppins", sans-serif;
+}
+
 #root {
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(#5a47ce, #232323 80%);
+   width: 100vw;
+   height: 100vh;
+   background: radial-gradient(#5a47ce, #232323 80%);
 }
 
 body {
-  margin: 0;
+   margin: 0;
 }
 
 .outline-text {
-  -webkit-text-stroke: 1px white;
+   -webkit-text-stroke: 1px white;
 }
+
+/* Custom animations */
+@keyframes float {
+   0%,
+   100% {
+      transform: translateY(0);
+   }
+   50% {
+      transform: translateY(-20px);
+   }
+}
+
+.animate-float {
+   animation: float 6s ease-in-out infinite;
+}
+
+/* Ensure high-quality text rendering */
+* {
+   text-rendering: optimizeLegibility;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glow Effects */
+.text-glow {
+   text-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Smooth Transitions */
+.transition-transform {
+   transition-property: transform;
+   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+   transition-duration: 300ms;
+}
+
+/* Card Hover Effects */
+.feature-card,
+.step-card {
+   transition: all 0.3s ease;
+}
+
+.feature-card:hover,
+.step-card:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Patterns */
+.bg-pattern {
+   background-repeat: repeat;
+   transform-origin: center;
+   transition: transform 0.5s ease;
+}
+
+/* Book Controls Animation */
+.book-controls button {
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.book-controls button:hover {
+   transform: translateY(-2px);
+}
+
+/* Scroll-triggered animations */
+.fade-up {
+   opacity: 0;
+   transform: translateY(20px);
+   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-up.visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+   .hero-title {
+      font-size: 2.5rem;
+   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+   width: 8px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--stripe-gray-dark);
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--stripe-purple);
+   border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: #7a73ff;
+}
+
+/* hide-scrollbar for modern browsers */
+.hide-scrollbar {
+   scrollbar-width: none; /* Firefox */
+   -ms-overflow-style: none;  /* IE and Edge */
+ }
+ 
+ .hide-scrollbar::-webkit-scrollbar {
+   display: none; /* Chrome, Safari, Opera */
+ }

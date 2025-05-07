@@ -21,6 +21,10 @@ const pictures = [
 ];
 
 export const pageAtom = atom(0);
+export const searchAtom = atom(false);
+export const verseSearchAtom = atom("");
+export const verseResultAtom = atom(null);
+
 export const pages = [
    {
       front: "book-cover",
