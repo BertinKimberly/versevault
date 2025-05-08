@@ -55,6 +55,22 @@ export const Footer = () => {
                      </li>
                      <li>
                         <Link
+                           to="/spiritual-growth-mindmap"
+                           className="text-gray-200 hover:text-[#7dabff] transition-colors"
+                        >
+                           Growth
+                        </Link>
+                     </li>
+                     <li>
+                        <Link
+                           to="/ai-chat"
+                           className="text-gray-200 hover:text-[#7dabff] transition-colors"
+                        >
+                           AI Chat
+                        </Link>
+                     </li>
+                     <li>
+                        <Link
                            to="/contact"
                            className="text-gray-200 hover:text-[#7dabff] transition-colors"
                         >
