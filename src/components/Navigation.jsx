@@ -172,6 +172,28 @@ export const Navigation = () => {
                      Bible Search
                   </Link>
                   <Link
+                     to="/spiritual-growth-mindmap"
+                     className={`${
+                        isActive("/spiritual-growth-mindmap")
+                           ? "bg-[#1f2a6e] text-white"
+                           : "text-white hover:bg-[#5a77de]/70"
+                     } block px-3 py-2 rounded-md text-base font-medium transition-colors`}
+                     onClick={() => setIsMenuOpen(false)}
+                  >
+                     Growth
+                  </Link>
+                  <Link
+                     to="/ai-chat"
+                     className={`${
+                        isActive("/ai-chat")
+                           ? "bg-[#1f2a6e] text-white"
+                           : "text-white hover:bg-[#5a77de]/70"
+                     } block px-3 py-2 rounded-md text-base font-medium transition-colors`}
+                     onClick={() => setIsMenuOpen(false)}
+                  >
+                     AI Chat
+                  </Link>
+                  <Link
                      to="/contact"
                      className={`${
                         isActive("/contact")

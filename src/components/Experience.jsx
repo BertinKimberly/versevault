@@ -1,83 +1,28 @@
 // Experience.jsx
-import { Environment, OrbitControls } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useState } from "react";
-import { Book, TexturePreloader } from "./Book";
+import { Environment, OrbitControls, Html } from "@react-three/drei";
+import { Suspense } from "react";
+import { Book } from "./Book";
 
-// BookLoader component that shows a 3D loading animation
-const BookLoader = () => {
-   const { clock } = useThree();
-   
-   useEffect(() => {
-      // Dummy cleanup function
-      return () => {};
-   }, []);
-   
-   return (
-      <group>
-         {/* Loading 3D animation - floating pages */}
-         <group position={[0, 0, 0]}>
-            {[...Array(5)].map((_, index) => (
-               <mesh
-                  key={index}
-                  position={[
-                     Math.sin(index * 0.5 + clock.elapsedTime * 0.5) * 0.3,
-                     Math.cos(index * 0.7 + clock.elapsedTime * 0.6) * 0.2 + 0.2,
-                     Math.sin(index * 0.3 + clock.elapsedTime * 0.3) * 0.3
-                  ]}
-                  rotation={[
-                     Math.sin(clock.elapsedTime * 0.5 + index) * 0.5,
-                     Math.cos(clock.elapsedTime * 0.5 + index) * 0.5,
-                     Math.sin(clock.elapsedTime * 0.7 + index) * 0.5
-                  ]}
-                  scale={[0.5, 0.7, 0.01]}
-               >
-                  <boxGeometry />
-                  <meshStandardMaterial
-                     color="#ffffff"
-                     roughness={0.5}
-                     metalness={0.2}
-                     emissive="#3A59D1"
-                     emissiveIntensity={0.3}
-                  />
-               </mesh>
-            ))}
-            
-            {/* Central glowing orb */}
-            <mesh position={[0, 0, 0]}>
-               <sphereGeometry args={[0.2, 32, 32]} />
-               <meshStandardMaterial
-                  color="#4e6adb"
-                  emissive="#3A59D1"
-                  emissiveIntensity={1.5}
-                  roughness={0.1}
-                  metalness={0.8}
-               />
-            </mesh>
-         </group>
-      </group>
-   );
-};
+const LoadingScreen = () => (
+   <Html center>
+      <div className="flex flex-col items-center justify-center">
+         <div className="w-32 h-32 mb-8 relative">
+            <div className="absolute inset-0 flex justify-center items-center">
+               <div className="w-16 h-24 bg-white rounded-r-lg shadow-lg animate-page-flip relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-gray-200" />
+               </div>
+               <div className="w-16 h-24 bg-[#e8e8e8] rounded-l-lg shadow-xl -ml-1 z-10" />
+            </div>
+         </div>
+         <div className="text-white text-xl">Loading Bible Scriptures...</div>
+      </div>
+   </Html>
+);
 
 export const Experience = () => {
-   const [isLoaded, setIsLoaded] = useState(false);
-   
-   // Listen for the book model loaded event
-   useEffect(() => {
-      const handleModelLoaded = () => {
-         setIsLoaded(true);
-      };
-      
-      window.addEventListener('bookModelLoaded', handleModelLoaded);
-      
-      return () => {
-         window.removeEventListener('bookModelLoaded', handleModelLoaded);
-      };
-   }, []);
-
    return (
       <>
-         <Suspense fallback={<BookLoader />}>
+         <Suspense fallback={<LoadingScreen />}>
             <group
                position={[0, -0.3, 0]}
                rotation={[0, 0, 0]}
